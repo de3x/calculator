@@ -82,6 +82,30 @@ body {
   height: 100%;
 }
 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  border-radius: 8px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: hsl(0, 2%, 84%);
+  background-color: hsl(235, 9%, 25%);
+}
+
+button:hover {
+  transform: scale(1.02);
+  background-color: hsl(235, 9%, 5%);
+}
+
+.operand {
+  background-color: hsl(0, 4%, 38%);
+}
+.operand:hover {
+  background-color: hsl(0, 4%, 33%);
+}
+
 .main-wrapper {
   min-height: 100%;
   display: flex;
@@ -104,11 +128,13 @@ body {
     "four five six minus"
     "one two three plus"
     "zero zero decimal equals";
-  background-color: black;
+  background-color: #c0c0c0;
   height: 600px;
   width: 500px;
-  gap: 4px;
-  border: 8px solid black;
+  gap: 8px;
+  padding: 24px;
+  border: 2px solid grey;
+  border-radius: 16px;
 }
 
 #display {
