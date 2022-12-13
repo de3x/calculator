@@ -95,7 +95,7 @@ button {
 }
 
 button:hover {
-  transform: scale(1.02);
+  /* transform: scale(1.02); */
   background-color: hsl(235, 9%, 5%);
 }
 
@@ -137,20 +137,31 @@ body {
   border-radius: 16px;
 }
 
-#display {
+#display-wrapper {
   grid-area: display;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 3fr;
   background-color: beige;
-  text-align: end;
-  font-size: 3rem;
-  padding: 0 8px;
+  padding: 16px 16px;
   white-space: nowrap;
   overflow: hidden;
-  /* max-width: todo ; */
 }
 
+.top-display {
+  height: 24px;
+}
+.bottom-display {
+  font-size: 2rem;
+}
+
+.top-display,
+.bottom-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: end;
+}
 #reset {
   grid-area: reset;
 }
@@ -211,4 +222,16 @@ body {
 }
 #equals {
   grid-area: equals;
+}
+
+button:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+button:disabled:hover {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
 }
