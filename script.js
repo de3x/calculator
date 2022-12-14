@@ -203,7 +203,7 @@ numberButtons.forEach((button) => {
 
 addButton.addEventListener("click", function (e) {
   e.stopPropagation();
-  selectedOperator = "add";
+  // selectedOperator = "add";
 
   // handle changing display of active selectedOperator
   if (topDisplay.textContent != "") {
@@ -219,8 +219,6 @@ addButton.addEventListener("click", function (e) {
   }
 
   if (numberBtnPressed) {
-    //   if (3 > 1) {
-
     selectedOperator = "add";
     if (currentTotal === undefined) currentTotal = 0;
     currentTotal = add(currentTotal, currentNumber);
