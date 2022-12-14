@@ -9,6 +9,7 @@
   </head>
   <body>
     <div class="main-wrapper">
+      <div class="spacer"></div>
       <div class="calculator">
         <div id="display-wrapper">
           <div class="top-display"></div>
@@ -42,6 +43,18 @@
         <button id="decimal" class="operand" type="button">.</button>
         <button id="equals" type="button">=</button>
       </div>
+      <footer class="footer">
+        <p>
+          Copyright ©
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          de3x
+        </p>
+        <a href="https://github.com/de3x" target="_blank">
+          <img id="github" src="/icons/github-mark.svg" alt="github icon" />
+        </a>
+      </footer>
     </div>
     <script src="./script.js"></script>
   </body>
