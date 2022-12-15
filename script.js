@@ -1,3 +1,5 @@
+// WARNING - SPAGHETTI CODE GALORE - WARNING
+
 const topDisplay = document.querySelector(".top-display");
 const bottomDisplay = document.querySelector(".bottom-display");
 const numberButtons = document.querySelectorAll(".operand");
@@ -9,7 +11,7 @@ const divideButton = document.getElementById("divide");
 const equalsButton = document.getElementById("equals");
 const resetButton = document.getElementById("reset");
 const signButton = document.getElementById("sign");
-const percentButton = document.getElementById("percent");
+const backspaceButton = document.getElementById("backspace");
 const decimalButton = document.getElementById("decimal");
 const allButtons = document.querySelectorAll("button");
 
@@ -47,7 +49,7 @@ function subtract(num1, num2) {
 }
 
 function multiply(num1, num2) {
-  let answer = +(num1 * num2);
+  let answer = roundAnswer(+(num1 * num2));
   return answer;
 }
 
@@ -68,7 +70,7 @@ function divide(num1, num2) {
     resetButton.style.scale = "1.075";
     return "#DIV/0!";
   }
-  let answer = +(num1 / num2);
+  let answer = roundAnswer(+(num1 / num2));
   return answer;
 }
 
@@ -160,6 +162,10 @@ function operate() {
   equalsPressed = true;
 }
 
+function roundAnswer(number) {
+  return Math.round(number * 10000000000) / 10000000000;
+}
+
 numberButtons.forEach((button) => {
   button.addEventListener("click", function (e) {
     e.stopPropagation();
@@ -172,31 +178,60 @@ numberButtons.forEach((button) => {
 
     if (digitsArray.length < 13) {
       // working way (not sure anymore about that)
-      //   digitsArray.push(parseInt(button.textContent));
-      //   currentNumber = +digitsArray.join("");
-      // testing way
-      if (button.disabled === false) {
-        digitsArray.push(button.textContent.trim());
-        let daj = digitsArray.join("").replace(/\s/g, "");
-        currentNumber = +daj;
-        console.log(currentNumber);
-        // handle decimal input
-        console.log(digitsArray);
-        updateBottomDisplay(`${currentNumber}`);
+      // digitsArray.push(parseInt(button.textContent));
+      // currentNumber = +digitsArray.join("");
+      // new testing way
 
-        // handling decimals
-        if (button.textContent === ".") {
-          decimalButton.disabled = true;
-          if (digitsArray.length === 1) {
-            currentNumber = 0;
-            updateBottomDisplay(`${currentNumber}.`);
-          }
-          if (digitsArray.length > 1) {
-            // todo
-            updateBottomDisplay(`${currentNumber}.`);
-          }
+      if (button.textContent === ".") {
+        decimalButton.disabled = true;
+
+        // check for 0 first
+        if (bottomDisplay.textContent == "0") {
+          digitsArray.push(0);
+          digitsArray.push(".");
+          bottomDisplay.textContent += ".";
+          return;
         }
+        bottomDisplay.textContent += ".";
+        return;
       }
+
+      // digitsArray.push(button.textContent.trim());
+      // currentNumber = Number(digitsArray.join(""));
+      // console.log("Current Number:", currentNumber);
+      // console.log("Current Number type:", typeof currentNumber);
+      // console.log(digitsArray);
+      // updateBottomDisplay(currentNumber);
+      if (bottomDisplay.textContent == "0") {
+        bottomDisplay.textContent = "";
+      }
+      digitsArray.push(button.textContent);
+      bottomDisplay.textContent += button.textContent.trim();
+      currentNumber = Number(bottomDisplay.textContent);
+
+      // testing way
+      // if (button.disabled === false) {
+      //   digitsArray.push(button.textContent.trim());
+      //   let daj = digitsArray.join("").replace(/\s/g, "");
+      //   currentNumber = +daj;
+      //   console.log(currentNumber);
+      //   // handle decimal input
+      //   console.log(digitsArray);
+      //   updateBottomDisplay(`${currentNumber}`);
+
+      //   // handling decimals
+      //   if (button.textContent === ".") {
+      //     decimalButton.disabled = true;
+      //     if (digitsArray.length === 1) {
+      //       currentNumber = 0;
+      //       updateBottomDisplay(`${currentNumber}.`);
+      //     }
+      //     if (digitsArray.length > 1) {
+      //       // todo
+      //       updateBottomDisplay(`${currentNumber}.`);
+      //     }
+      //   }
+      // }
     }
   });
 });
@@ -360,22 +395,22 @@ equalsButton.addEventListener("click", function (e) {
     // Botttom display
     if (selectedOperator === "add") {
       let answer = add(currentTotal, currentNumber);
-      updateBottomDisplay(`${answer}`);
+      updateBottomDisplay(`${roundAnswer(answer)}`);
     }
     if (selectedOperator === "subtract") {
       let answer = subtract(currentTotal, currentNumber);
-      updateBottomDisplay(`${answer}`);
+      updateBottomDisplay(`${roundAnswer(answer)}`);
     }
     if (selectedOperator === "multiply") {
       let answer = multiply(currentTotal, currentNumber);
-      updateBottomDisplay(`${answer}`);
+      updateBottomDisplay(`${roundAnswer(answer)}`);
     }
     if (selectedOperator === "divide") {
       let answer = divide(currentTotal, currentNumber);
       if (answer === "#DIV/0!") {
         decimalButton.disabled = true;
       }
-      updateBottomDisplay(`${answer}`);
+      updateBottomDisplay(`${roundAnswer(answer)}`);
     }
     // Empty array for next number
     digitsArray = [];
@@ -395,4 +430,13 @@ signButton.addEventListener("click", function (e) {
   // todo
   currentNumber = bottomDisplay.textContent * -1;
   updateBottomDisplay(currentNumber);
+});
+
+function deleteCharacter() {
+  bottomDisplay.textContent = bottomDisplay.textContent.toString().slice(0, -1);
+}
+
+backspaceButton.addEventListener("click", function () {
+  deleteCharacter();
+  currentNumber = Number(bottomDisplay.textContent);
 });
